@@ -36,17 +36,17 @@ function SiteMap() {
   // getServerSideProps will do the heavy lifting
 }
 
-export function getServerSideProps({ res }: { res: any }): SiteMap {
-  const sitemap = generateSiteMap();
+// export function getServerSideProps({ res }: { res: any }): SiteMap {
+//   const sitemap = generateSiteMap();
 
-  res.setHeader('Content-Type', 'text/xml');
+//   res.setHeader('Content-Type', 'text/xml');
 
-  res.write(sitemap);
-  res.end();
+//   res.write(sitemap);
+//   res.end();
 
-  return {
-    props: {},
-  };
-}
+//   return {
+//     props: {},
+//   };
+// }
 
 export default SiteMap;

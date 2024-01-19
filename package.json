@@ -17,6 +17,7 @@
     "commit": "cz"
   },
   "dependencies": {
+    "@urbit/http-api": "^2.3.0",
     "@idos-network/idos-sdk": "^0.0.30",
     "@keypom/selector": "1.2.3",
     "@monaco-editor/react": "^4.4.6",

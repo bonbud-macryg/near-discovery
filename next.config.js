@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
+  experimental: {
+    esmExternals: "loose",
+  },
   poweredByHeader: false,
   compiler: { styledComponents: true },
   reactStrictMode: true,

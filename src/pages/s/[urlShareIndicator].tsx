@@ -1,4 +1,5 @@
-import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+// import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import type { InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -115,51 +116,59 @@ function sanitizeText(text: string) {
   return text.replace(/\n/g, ' ').replace(/\s\s/g, ' ').trim();
 }
 
-export const getServerSideProps: GetServerSideProps<{
-  meta: MetaPreview | null;
-}> = async ({ query }) => {
-  const indicator = query.urlShareIndicator as string;
-  const accountId = query.a as string;
-  const blockHeight = query.b as string;
-  const shareType = returnShareType(indicator);
-  let meta: MetaPreview | null = null;
-
-  if (shareType === 'COMMENT') {
-    meta = await returnMetaPreviewForComment(accountId, blockHeight);
-  } else if (shareType === 'POST') {
-    meta = await returnMetaPreviewForPost(accountId, blockHeight);
-  }
-
-  return {
-    props: {
-      meta,
-    },
-  };
+const EmptyComponent = () => {
+  return (
+      <div></div>
+  );
 };
 
-const ShareUrlPage: NextPageWithLayout = ({ meta }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const router = useRouter();
+export default EmptyComponent;
 
-  useEffect(() => {
-    if (meta?.redirectUrl) {
-      router.replace(meta.redirectUrl);
-    } else {
-      openToast({
-        id: 'invalid-share-url',
-        type: 'ERROR',
-        title: 'Invalid URL',
-      });
-      router.replace('/');
-    }
-  }, [meta, router]);
+// export const getServerSideProps: GetServerSideProps<{
+//   meta: MetaPreview | null;
+// }> = async ({ query }) => {
+//   const indicator = query.urlShareIndicator as string;
+//   const accountId = query.a as string;
+//   const blockHeight = query.b as string;
+//   const shareType = returnShareType(indicator);
+//   let meta: MetaPreview | null = null;
 
-  if (meta) {
-    return <MetaTags title={meta.title} description={meta.description} image={meta.imageUrl} />;
-  }
+//   if (shareType === 'COMMENT') {
+//     meta = await returnMetaPreviewForComment(accountId, blockHeight);
+//   } else if (shareType === 'POST') {
+//     meta = await returnMetaPreviewForPost(accountId, blockHeight);
+//   }
 
-  return null;
-};
+//   return {
+//     props: {
+//       meta,
+//     },
+//   };
+// };
 
-ShareUrlPage.getLayout = useDefaultLayout;
+// const ShareUrlPage: NextPageWithLayout = ({ meta }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+//   const router = useRouter();
 
-export default ShareUrlPage;
+//   useEffect(() => {
+//     if (meta?.redirectUrl) {
+//       router.replace(meta.redirectUrl);
+//     } else {
+//       openToast({
+//         id: 'invalid-share-url',
+//         type: 'ERROR',
+//         title: 'Invalid URL',
+//       });
+//       router.replace('/');
+//     }
+//   }, [meta, router]);
+
+//   if (meta) {
+//     return <MetaTags title={meta.title} description={meta.description} image={meta.imageUrl} />;
+//   }
+
+//   return null;
+// };
+
+// ShareUrlPage.getLayout = useDefaultLayout;
+
+// export default ShareUrlPage;

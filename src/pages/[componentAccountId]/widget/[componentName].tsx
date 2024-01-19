@@ -1,4 +1,4 @@
-import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+// import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { remark } from 'remark';
@@ -64,40 +64,40 @@ async function fetchPreviewData(accountId: string, componentName: string): Promi
   };
 }
 
-export const getServerSideProps: GetServerSideProps<{
-  meta: ComponentMetaPreview | null;
-}> = async ({ params }) => {
-  const componentAccountId = params?.componentAccountId;
-  const componentName = params?.componentName;
+// export const getServerSideProps: GetServerSideProps<{
+//   meta: ComponentMetaPreview | null;
+// }> = async ({ params }) => {
+//   const componentAccountId = params?.componentAccountId;
+//   const componentName = params?.componentName;
 
-  if (typeof componentAccountId !== 'string' || typeof componentName !== 'string') {
-    return {
-      notFound: true,
-    };
-  }
+//   if (typeof componentAccountId !== 'string' || typeof componentName !== 'string') {
+//     return {
+//       notFound: true,
+//     };
+//   }
 
-  let meta;
+//   let meta;
 
-  try {
-    meta = await fetchPreviewData(componentAccountId, componentName);
-  } catch (err: any) {
-    if (err.name === 'TimeoutError') {
-      console.warn('fetchPreview aborted due to a timeout', err);
-    } else {
-      console.warn('Failed to fetchPreview ', err);
-    }
-  }
+//   try {
+//     meta = await fetchPreviewData(componentAccountId, componentName);
+//   } catch (err: any) {
+//     if (err.name === 'TimeoutError') {
+//       console.warn('fetchPreview aborted due to a timeout', err);
+//     } else {
+//       console.warn('Failed to fetchPreview ', err);
+//     }
+//   }
 
-  return {
-    props: {
-      meta: meta || {
-        title: '',
-        description: '',
-        imageUrl: '',
-      },
-    },
-  };
-};
+//   return {
+//     props: {
+//       meta: meta || {
+//         title: '',
+//         description: '',
+//         imageUrl: '',
+//       },
+//     },
+//   };
+// };
 
 const ViewComponentPage: NextPageWithLayout = () => {
   const router = useRouter();

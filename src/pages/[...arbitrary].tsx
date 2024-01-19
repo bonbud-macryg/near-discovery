@@ -49,68 +49,77 @@ const finiteRoutes: Record<string, string> = {
 };
 
 import IframeResizer from 'iframe-resizer-react';
-import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+// import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { InferGetStaticPropsType } from 'next';
 
 import { useClearCurrentComponent } from '@/hooks/useClearCurrentComponent';
 import { useDefaultLayout } from '@/hooks/useLayout';
 import type { NextPageWithLayout } from '@/utils/types';
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [
-      ...[...Object.keys(extendableRoutes), ...Object.keys(finiteRoutes)].map((route) => ({
-        params: { arbitrary: [route] },
-      })),
-    ],
-    fallback: 'blocking', // will cause pages to be statically generated on-demand when first requested
-  };
-};
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   return {
+//     paths: [
+//       ...[...Object.keys(extendableRoutes), ...Object.keys(finiteRoutes)].map((route) => ({
+//         params: { arbitrary: [route] },
+//       })),
+//     ],
+//     fallback: 'blocking', // will cause pages to be statically generated on-demand when first requested
+//   };
+// };
 
 type StaticProps = {
   notFound?: boolean;
   url?: string;
 };
 
+const EmptyComponent = () => {
+  return (
+      <div></div>
+  );
+};
+
+export default EmptyComponent;
+
 // compute the iframe url from the path segments
-export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
-  if (!context.params?.arbitrary || !Array.isArray(context.params.arbitrary) || context.params.arbitrary.length === 0) {
-    return {
-      notFound: true,
-    };
-  }
+// export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
+//   if (!context.params?.arbitrary || !Array.isArray(context.params.arbitrary) || context.params.arbitrary.length === 0) {
+//     return {
+//       notFound: true,
+//     };
+//   }
 
-  if (finiteRoutes[context.params.arbitrary[0]]) {
-    return {
-      props: {
-        url: finiteRoutes[context.params.arbitrary[0]],
-      },
-    };
-  }
+//   if (finiteRoutes[context.params.arbitrary[0]]) {
+//     return {
+//       props: {
+//         url: finiteRoutes[context.params.arbitrary[0]],
+//       },
+//     };
+//   }
 
-  // logic is the same here for pre-generated extendable routes and fallbacks
-  const extendableRouteConfig =
-    extendableRoutes[context.params.arbitrary[0]] || extendableFallbacks[context.params.arbitrary[0]];
-  if (extendableRouteConfig) {
-    return {
-      props: {
-        url:
-          extendableRouteConfig +
-          (context.params.arbitrary.length > 1 ? '/' + context.params.arbitrary.slice(1).join('/') : ''),
-      },
-    };
-  }
+//   // logic is the same here for pre-generated extendable routes and fallbacks
+//   const extendableRouteConfig =
+//     extendableRoutes[context.params.arbitrary[0]] || extendableFallbacks[context.params.arbitrary[0]];
+//   if (extendableRouteConfig) {
+//     return {
+//       props: {
+//         url:
+//           extendableRouteConfig +
+//           (context.params.arbitrary.length > 1 ? '/' + context.params.arbitrary.slice(1).join('/') : ''),
+//       },
+//     };
+//   }
 
-  return {
-    notFound: true,
-  };
-};
+//   return {
+//     notFound: true,
+//   };
+// };
 
-const IframePage: NextPageWithLayout = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-  useClearCurrentComponent();
+// const IframePage: NextPageWithLayout = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+//   useClearCurrentComponent();
 
-  return <IframeResizer src={props.url} style={{ width: '1px', minWidth: '100%' }} checkOrigin={false} />;
-};
+//   return <IframeResizer src={props.url} style={{ width: '1px', minWidth: '100%' }} checkOrigin={false} />;
+// };
 
-IframePage.getLayout = useDefaultLayout;
+// IframePage.getLayout = useDefaultLayout;
 
-export default IframePage;
+// export default IframePage;
